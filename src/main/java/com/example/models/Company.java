@@ -3,9 +3,9 @@ package com.example.models;
 public class Company {
 
     private String name;
-    private int phoneNumber;
+    private String phoneNumber;
 
-    public Company(String name, int phoneNumber) {
+    public Company(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
@@ -26,11 +26,11 @@ public class Company {
         this.name = name;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }
