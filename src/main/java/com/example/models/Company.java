@@ -1,5 +1,10 @@
 package com.example.models;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
+// else when serialized, there will be no output
+// now when compiled, include all reflection info for serialization
 public class Company {
 
     private String name;
@@ -7,7 +12,7 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company{" +
+        return "Company {" +
                 "name='" + name + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 '}';
