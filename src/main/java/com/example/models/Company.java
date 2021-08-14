@@ -5,11 +5,6 @@ public class Company {
     private String name;
     private String phoneNumber;
 
-    public Company(String name, String phoneNumber) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-    }
-
     @Override
     public String toString() {
         return "Company{" +
