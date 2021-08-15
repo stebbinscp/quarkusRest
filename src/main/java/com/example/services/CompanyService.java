@@ -23,6 +23,7 @@ public class CompanyService {
     }
 
     public List<Company> add(Company company){
+        System.out.println(company);
         return companyRepo.add(company);
     }
 

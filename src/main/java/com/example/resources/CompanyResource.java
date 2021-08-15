@@ -26,6 +26,7 @@ public class CompanyResource {
     @POST
     public List<Company> add(Company company){
         // use service to add company
+        System.out.println(company);
         companyService.add(company);
         return companyService.findAll();
     }

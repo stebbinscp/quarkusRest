@@ -32,6 +32,7 @@ public class CompanyRepo extends AbstractRepo{
     }
 
     public List<Company> add(Company company){
+        System.out.println(company);
         dynamoDB.putItem(putRequest(company));
         return findAll();
     }

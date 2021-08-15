@@ -8,13 +8,13 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 public class Company {
 
     private String name;
-    private String phoneNumber;
+    private String number;
 
     @Override
     public String toString() {
         return "Company {" +
                 "name='" + name + '\'' +
-                ", phoneNumber=" + phoneNumber +
+                ", phoneNumber=" + number +
                 '}';
     }
 
@@ -27,10 +27,10 @@ public class Company {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return number;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.number = phoneNumber;
     }
 }
