@@ -16,8 +16,6 @@ import java.util.List;
 // switching databaes requires this to change, what repo is being called
 // instantiated in the service
 
-// last thing, at the start of the company repo, want to fill with faker
-
 @ApplicationScoped
 public class CompanyRepo{
 
