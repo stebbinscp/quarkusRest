@@ -41,29 +41,7 @@ public class CompanyRepo extends AbstractRepo{
 
         while(cursor.hasNext()) {
             String obj = cursor.next().toString();
-            String[] parts = obj.split("\\{");
-            String partsWanted = parts[2];
-//            System.out.println(partsWanted);
-            String[] partsFromWanted = partsWanted.split(",");
-//            System.out.println(partsFromWanted[0]);
-//            System.out.println(partsFromWanted[1]);
-//            System.out.println(partsFromWanted[2]);
-
-            String[] idFromParts = partsFromWanted[0].split("=");
-            String[] nameFromParts = partsFromWanted[1].split("=");
-            String[] numberFromParts = partsFromWanted[2].split("=");
-            String[] numberFromPartsNoBracket = numberFromParts[1].split("\\}");
-
-            String id = idFromParts[1]; //works
-            String name = nameFromParts[1];
-            String number = numberFromPartsNoBracket[0];
-//            System.out.println(name);
-//            System.out.println(number);
-            Company company = new Company();
-            company.setPhoneNumber(number);
-            company.setName(name);
-            results.add(company);
-
+            results.add(transform(obj));
         }
         return results;
 
@@ -81,22 +59,31 @@ public class CompanyRepo extends AbstractRepo{
 //        return transform(dynamoDB.getItem(getRequest(number)).item());
     }
 
-//    public Company transform(Map<String, AttributeValue> item){
-//        // take the map and transform to a movie
-//        // check for not null
-//
-//        Company company = new Company();
-//        if (item != null && !item.isEmpty()){
-//            // set the values based on the items
-//            // all elements are strings, even numeric values
-//            // .s turns the item into a string
-//            company.setName(item.get(AbstractRepo.COMPANY_NAME_COL).s());
-//            company.setPhoneNumber(item.get(AbstractRepo.COMPANY_NUMBER_COL).s());
-//        }
-//        // n is a string representation of a number
-//        // see his example if we want to add numbers
-//        return company;
-//    }
+    public Company transform(String obj){
 
+        String[] parts = obj.split("\\{");
+        String partsWanted = parts[2];
+//            System.out.println(partsWanted);
+        String[] partsFromWanted = partsWanted.split(",");
+//            System.out.println(partsFromWanted[0]);
+//            System.out.println(partsFromWanted[1]);
+//            System.out.println(partsFromWanted[2]);
+
+        String[] idFromParts = partsFromWanted[0].split("=");
+        String[] nameFromParts = partsFromWanted[1].split("=");
+        String[] numberFromParts = partsFromWanted[2].split("=");
+        String[] numberFromPartsNoBracket = numberFromParts[1].split("\\}");
+
+        String id = idFromParts[1]; //works
+        String name = nameFromParts[1];
+        String number = numberFromPartsNoBracket[0];
+//            System.out.println(name);
+//            System.out.println(number);
+        Company company = new Company();
+        company.setPhoneNumber(number);
+        company.setName(name);
+
+        return company;
+    }
 
 }
