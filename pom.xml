@@ -35,6 +35,11 @@
             <artifactId>quarkus-amazon-dynamodb</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>url-connection-client</artifactId>
         </dependency>
