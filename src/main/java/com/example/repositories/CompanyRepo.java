@@ -1,36 +1,39 @@
 package com.example.repositories;
 
 import com.example.models.Company;
+import com.github.javafaker.Faker;
 import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import io.vertx.core.json.JsonObject;
 import static com.mongodb.client.model.Filters.eq;
 import org.bson.Document;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 // switching databaes requires this to change, what repo is being called
 // instantiated in the service
 
+// last thing, at the start of the company repo, want to fill with faker
+
 @ApplicationScoped
-public class CompanyRepo extends AbstractRepo{
+public class CompanyRepo{
 
 //    @Inject
     MongoClient mongoClient = new MongoClient("localhost", 27017);
     MongoDatabase database = mongoClient.getDatabase("companies");
-    // marked to be injected later on
+    // marked to be injected later
+
+    private boolean first = true;
 
     public List<Company> findAll(){
+
+        if(first){
+            populate();
+            first = false;
+        }
 
         MongoCollection<Document> collection = database.getCollection("companies");
         MongoCursor<Document> cursor = collection.find().iterator();
@@ -46,6 +49,11 @@ public class CompanyRepo extends AbstractRepo{
 
     public List<Company> add(Company company){
 
+        if(first){
+            populate();
+            first = false;
+        }
+
         Document doc = new Document();
         doc.append("name",company.getName());
         doc.append("number", company.getPhoneNumber());
@@ -54,6 +62,11 @@ public class CompanyRepo extends AbstractRepo{
     }
 
     public Company get(String number){
+
+        if(first){
+            populate();
+            first = false;
+        }
         MongoCollection<Document> collection = database.getCollection("companies");
         MongoCursor<Document> cursor = collection.find(eq("number", number)).iterator();
         List<Company> results = new ArrayList<>();
@@ -83,6 +96,20 @@ public class CompanyRepo extends AbstractRepo{
         company.setName(name);
 
         return company;
+    }
+
+    public void populate() {
+        List<Document> list = new ArrayList<Document>();
+        Faker faker = new Faker();
+        for (int i = 1; i <= 1000; i++) {
+            String name = faker.name().firstName();
+            String number = faker.phoneNumber().phoneNumber().toString();
+            Document doc = new Document();
+            doc.append("name",name);
+            doc.append("number",number);
+            list.add(doc);
+        }
+        database.getCollection("companies").insertMany(list);
     }
 
 }
