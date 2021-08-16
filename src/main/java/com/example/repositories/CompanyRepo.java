@@ -27,10 +27,7 @@ public class CompanyRepo extends AbstractRepo{
 //    @Inject
     MongoClient mongoClient = new MongoClient("localhost", 27017);
     MongoDatabase database = mongoClient.getDatabase("companies");
-//    DynamoDbClient dynamoDB;
     // marked to be injected later on
-    // the repo should be alive for the life cycle of the app itself
-    // while running, must have an instance of the repo
 
     public List<Company> findAll(){
 
@@ -48,10 +45,12 @@ public class CompanyRepo extends AbstractRepo{
     }
 
     public List<Company> add(Company company){
-        return null;
-//        System.out.println(company);
-//        dynamoDB.putItem(putRequest(company));
-//        return findAll();
+
+        Document doc = new Document();
+        doc.append("name",company.getName());
+        doc.append("number", company.getPhoneNumber());
+        database.getCollection("companies").insertOne(doc);
+        return findAll();
     }
 
     public Company get(String number){
