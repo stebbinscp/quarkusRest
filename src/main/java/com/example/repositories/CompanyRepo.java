@@ -7,6 +7,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import io.vertx.core.json.JsonObject;
+import static com.mongodb.client.model.Filters.eq;
 import org.bson.Document;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
@@ -33,7 +34,6 @@ public class CompanyRepo extends AbstractRepo{
 
         MongoCollection<Document> collection = database.getCollection("companies");
         MongoCursor<Document> cursor = collection.find().iterator();
-        FindIterable<Document> iterable = collection.find();
         List<Company> results = new ArrayList<>();
 
         while(cursor.hasNext()) {
@@ -54,30 +54,30 @@ public class CompanyRepo extends AbstractRepo{
     }
 
     public Company get(String number){
-        return null;
-//        return transform(dynamoDB.getItem(getRequest(number)).item());
+        MongoCollection<Document> collection = database.getCollection("companies");
+        MongoCursor<Document> cursor = collection.find(eq("number", number)).iterator();
+        List<Company> results = new ArrayList<>();
+        while(cursor.hasNext()) {
+            String obj = cursor.next().toString();
+            results.add(transform(obj));
+        }
+        return results.get(0);
     }
 
     public Company transform(String obj){
 
         String[] parts = obj.split("\\{");
         String partsWanted = parts[2];
-//            System.out.println(partsWanted);
         String[] partsFromWanted = partsWanted.split(",");
-//            System.out.println(partsFromWanted[0]);
-//            System.out.println(partsFromWanted[1]);
-//            System.out.println(partsFromWanted[2]);
 
         String[] idFromParts = partsFromWanted[0].split("=");
         String[] nameFromParts = partsFromWanted[1].split("=");
         String[] numberFromParts = partsFromWanted[2].split("=");
         String[] numberFromPartsNoBracket = numberFromParts[1].split("\\}");
 
-        String id = idFromParts[1]; //works
+        String id = idFromParts[1];
         String name = nameFromParts[1];
         String number = numberFromPartsNoBracket[0];
-//            System.out.println(name);
-//            System.out.println(number);
         Company company = new Company();
         company.setPhoneNumber(number);
         company.setName(name);
