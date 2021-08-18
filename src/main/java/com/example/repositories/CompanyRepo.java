@@ -7,7 +7,12 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
+
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+import org.apache.commons.lang3.ObjectUtils;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
@@ -72,7 +77,37 @@ public class CompanyRepo{
             String obj = cursor.next().toString();
             results.add(transform(obj));
         }
-        return results.get(0);
+
+        try {
+            Company result = results.get(0);
+            return result;
+        }
+        catch (Exception e){
+            return null;
+        }
+
+    }
+
+    public String delete(String id){
+
+        MongoCollection<Document> collection = database.getCollection("companies");
+        collection.deleteOne(new Document("_id", new ObjectId(id)));
+
+        return "Deleted id"+id;
+    }
+
+    public String update(Company company, String id) {
+        MongoCollection<Document> collection = database.getCollection("companies");
+        collection.updateOne(eq("_id", id), Updates.set("name", company.getName()));
+        collection.updateOne(eq("_id", id), Updates.set("number", company.getPhoneNumber()));
+
+        Document myDoc = collection.find(eq("_id", id)).first();
+
+        if (myDoc == null){
+            return "no such id exists in the database";
+        } else {
+            return "updated id "+id+" to given info "+company;
+        }
     }
 
     public Company transform(String obj){
@@ -92,6 +127,7 @@ public class CompanyRepo{
         Company company = new Company();
         company.setPhoneNumber(number);
         company.setName(name);
+        company.setId(id);
 
         return company;
     }

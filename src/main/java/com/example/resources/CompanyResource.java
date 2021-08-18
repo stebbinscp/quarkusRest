@@ -19,14 +19,19 @@ public class CompanyResource {
 
     @GET
     public List<Company> getAll(){
-        return companyService.findAll();
+        try {
+            return companyService.findAll();
+        }
+        catch (Exception e){
+            throw new NotFoundException("No companies in database");
+        }
         // use service to get movies
     }
 
     @POST
     public List<Company> add(Company company){
         // use service to add company
-        System.out.println(company);
+//        System.out.println(company);
         companyService.add(company);
         return companyService.findAll();
     }
@@ -35,9 +40,36 @@ public class CompanyResource {
     @Path("{number}")
     public Company getFromNumber(@PathParam("number") String number){
         // use service to return company based on number
-        return companyService.get(number);
+        System.out.println(companyService.get(number));
+        if (null == companyService.get(number)) {
+            throw new NotFoundException("No companies with that number in database");
+        } else {
+            return companyService.get(number);
+        }
+    }
+
+    @DELETE
+    @Path("{id}")
+    public String delete(@PathParam("id") String id){
+        // use service to return company based on number
+        try {
+            return companyService.delete(id);
+        }
+        catch (Exception e){
+            throw new NotFoundException("No companies with that number in database");
+        }
+    }
+
+    @PATCH
+    @Path("{id}")
+    public String update(@PathParam("id") String id, Company company) {
+        try {
+            return companyService.update(company, id);
+        }
+        catch (Exception e){
+            throw new NotFoundException("No companies with that number in database");
+        }
     }
 
 }
 
-// need a dynamo db to be running locally for this to work

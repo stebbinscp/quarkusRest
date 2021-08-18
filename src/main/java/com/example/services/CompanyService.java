@@ -23,11 +23,19 @@ public class CompanyService {
     }
 
     public List<Company> add(Company company){
-        System.out.println(company);
         return companyRepo.add(company);
     }
 
+    public String delete(String id){
+        return companyRepo.delete(id);
+    }
+
+    public String update(Company company, String id){
+        return companyRepo.update(company, id);
+    }
+
     public Company get(String number) {
+        System.out.println(companyRepo.get(number));
         return companyRepo.get(number);
     }
 
