@@ -19,8 +19,6 @@ public class NetflixRepo {
     MongoClient mongoClient = new MongoClient("localhost", 27017);
     MongoDatabase database = mongoClient.getDatabase("netflix");
 
-    private boolean first = true;
-
     public List<FavoriteNetflix> findAll(){
 
         MongoCollection<Document> collection = database.getCollection("netflix");
@@ -75,7 +73,7 @@ public class NetflixRepo {
         String[] idFromParts = partsFromWanted[0].split("="); //_id=6122dfa31062c87a6795f6c4
         String[] titleFromParts = partsFromWanted[1].split("="); //title=title,
         String[] synopsisFromParts = partsFromWanted[2].split("="); // synopsis=synopsis,
-        String[] imgFromParts = partsFromWanted[1].split("\\}"); //img=https://picsum.photos/100/300}}
+        String[] imgFromParts = partsFromWanted[3].split("\\}"); //img=https://picsum.photos/100/300}}
 
         String[] imgFromPartsNoBrackets = imgFromParts[0].split("="); //https://picsum.photos/100/300
 //
