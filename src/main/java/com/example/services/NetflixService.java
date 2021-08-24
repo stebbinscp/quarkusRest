@@ -21,8 +21,8 @@ public class NetflixService {
         return netflixRepo.add(favoriteNetflix);
     }
 
-    public String delete(String id){
-        return netflixRepo.delete(id);
+    public void delete(String id){
+        netflixRepo.delete(id);
     }
 
     public String update(FavoriteNetflix favoriteNetflix, String id){

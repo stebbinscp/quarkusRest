@@ -35,9 +35,9 @@ public class NetflixResource {
 
     @DELETE
     @Path("{id}")
-    public String delete(@PathParam("id") String id){
+    public void delete(@PathParam("id") String id){
         try {
-            return netflixService.delete(id);
+            netflixService.delete(id);
         }
         catch (Exception e){
             throw new NotFoundException("No companies with that number in database");

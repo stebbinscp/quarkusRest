@@ -43,12 +43,11 @@ public class NetflixRepo {
         return findAll();
     }
 
-    public String delete(String id){
+    public void delete(String id){
 
         MongoCollection<Document> collection = database.getCollection("netflix");
         collection.deleteOne(new Document("_id", new ObjectId(id)));
 
-        return "Deleted id"+id;
     }
 
     public String update(FavoriteNetflix favoriteNetflix, String id) {
@@ -68,20 +67,18 @@ public class NetflixRepo {
 
         String[] parts = obj.split("\\{");
         String partsWanted = parts[2];
-        String[] partsFromWanted = partsWanted.split(",");
-//
-        String[] idFromParts = partsFromWanted[0].split("="); //_id=6122dfa31062c87a6795f6c4
-        String[] titleFromParts = partsFromWanted[1].split("="); //title=title,
-        String[] synopsisFromParts = partsFromWanted[2].split("="); // synopsis=synopsis,
-        String[] imgFromParts = partsFromWanted[3].split("\\}"); //img=https://picsum.photos/100/300}}
+        System.out.println(partsWanted);
+        String[] partsFromWanted = partsWanted.split("=");
 
-        String[] imgFromPartsNoBrackets = imgFromParts[0].split("="); //https://picsum.photos/100/300
-//
-        String id = idFromParts[1];
-        String title = titleFromParts[1];
-        String synopsis = synopsisFromParts[1];
+        String id = partsFromWanted[1].replace(", title", "");
+        String title = partsFromWanted[2].replace(", synopsis", "");
+        String synopsis = partsFromWanted[3].replace(", img", "");
+        String img = partsFromWanted[4];
+        System.out.println(id);
+        System.out.println(title);
+        System.out.println(synopsis);
+        System.out.println(img);
 
-        String img = imgFromPartsNoBrackets[1];
         FavoriteNetflix favoriteNetflix = new FavoriteNetflix();
         favoriteNetflix.setId(id);
         favoriteNetflix.setImg(img);
