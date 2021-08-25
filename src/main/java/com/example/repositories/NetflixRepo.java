@@ -10,11 +10,15 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
 public class NetflixRepo {
+
+//    @Inject
+//    MongoClient mongoClient;
 
     MongoClient mongoClient = new MongoClient("localhost", 27017);
     MongoDatabase database = mongoClient.getDatabase("netflix");
