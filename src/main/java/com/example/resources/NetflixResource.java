@@ -40,18 +40,18 @@ public class NetflixResource {
             netflixService.delete(id);
         }
         catch (Exception e){
-            throw new NotFoundException("No companies with that number in database");
+            throw new NotFoundException("No neflix with that id in database");
         }
     }
 
     @PATCH
     @Path("{id}")
-    public String update(@PathParam("id") String id, FavoriteNetflix favoriteNetflix) {
+    public void update(@PathParam("id") String id, FavoriteNetflix favoriteNetflix) {
         try {
-            return netflixService.update(favoriteNetflix, id);
+            netflixService.update(favoriteNetflix, id);
         }
         catch (Exception e){
-            throw new NotFoundException("No companies with that number in database");
+            throw new NotFoundException("No netflix with that id in database");
         }
     }
 

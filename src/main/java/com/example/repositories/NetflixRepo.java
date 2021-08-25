@@ -50,42 +50,31 @@ public class NetflixRepo {
 
     }
 
-    public String update(FavoriteNetflix favoriteNetflix, String id) {
+    public void update(FavoriteNetflix favoriteNetflix, String id) {
         try {
             delete(id);
             add(favoriteNetflix);
-            return "Updated!"+favoriteNetflix;
         } catch (Exception e){
             System.out.println(e);
-            return "Item cannot updated as id does not exist";
         }
     }
 
     public FavoriteNetflix transform(String obj){
 
-        System.out.println(obj);
-
         String[] parts = obj.split("\\{");
         String partsWanted = parts[2];
-        System.out.println(partsWanted);
         String[] partsFromWanted = partsWanted.split("=");
 
         String id = partsFromWanted[1].replace(", title", "");
         String title = partsFromWanted[2].replace(", synopsis", "");
         String synopsis = partsFromWanted[3].replace(", img", "");
         String img = partsFromWanted[4];
-        System.out.println(id);
-        System.out.println(title);
-        System.out.println(synopsis);
-        System.out.println(img);
 
         FavoriteNetflix favoriteNetflix = new FavoriteNetflix();
         favoriteNetflix.setId(id);
         favoriteNetflix.setImg(img);
         favoriteNetflix.setTitle(title);
         favoriteNetflix.setSynopsis(synopsis);
-
-        System.out.println(favoriteNetflix);
 
         return favoriteNetflix;
     }
